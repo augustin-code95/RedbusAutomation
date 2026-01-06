@@ -1,6 +1,7 @@
 package com.redbus;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -14,18 +15,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RedBusAutomationAssignmentFinalSolution {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException 
+	{
 
 		ChromeOptions chromeOptions = new ChromeOptions();
 		chromeOptions.addArguments("--start-maximized");
+		chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+		chromeOptions.setExperimentalOption("useAutomationExtension", false);
 		WebDriver wd = new ChromeDriver(chromeOptions);
 		WebDriverWait wait = new WebDriverWait(wd,Duration.ofSeconds(30));
+		JavascriptExecutor js = (JavascriptExecutor) wd;
+
 
 		wd.get("https://www.redbus.in/");
 
-		By sourceButtonLocator = By.xpath("//div[contains(@class,'srcDestWrapper') and (@role=\"button\")]");
+		By sourceButtonLocator = By.xpath("//*[@id='srcinput']");  
 		WebElement sourceButton=wait.until(ExpectedConditions.visibilityOfElementLocated(sourceButtonLocator));
-		sourceButton.click();
+		//sourceButton.click();
+		
+        js.executeScript("arguments[0].click();", sourceButton);
 		
 		By searchSuggestionSectionLocator=By.xpath("//*[contains(@class,'searchSuggestionWrapper')]");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(searchSuggestionSectionLocator));
@@ -52,7 +60,7 @@ public class RedBusAutomationAssignmentFinalSolution {
 		System.out.println(subtitleButton.getText());
 		
 		By rowListLocator=By.xpath("//li[contains(@class,'tupleWrapper')]");		
-		JavascriptExecutor js=(JavascriptExecutor)wd;
+		//JavascriptExecutor js=(JavascriptExecutor)wd;
 		
 		while(true) {	
 			List<WebElement> rowList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(rowListLocator));
@@ -71,6 +79,7 @@ public class RedBusAutomationAssignmentFinalSolution {
 		}
 		
 		System.out.println("Total number of buses loaded with Primo and Ac are: "+rowList.size());	
+		wd.close();
 	}
 
 	private static void selectLocation(WebDriver wd, WebDriverWait wait, String locationName) {
