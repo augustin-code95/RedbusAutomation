@@ -25,14 +25,14 @@ public class RedBusAutomationAssignmentFinalSolution {
 		WebDriver wd = new ChromeDriver(chromeOptions);
 		WebDriverWait wait = new WebDriverWait(wd,Duration.ofSeconds(30));
 		JavascriptExecutor js = (JavascriptExecutor) wd;
-
+		int a=0;
 
 		wd.get("https://www.redbus.in/");
 
 		By sourceButtonLocator = By.xpath("//*[@id='srcinput']");  
 		WebElement sourceButton=wait.until(ExpectedConditions.visibilityOfElementLocated(sourceButtonLocator));
 		//sourceButton.click();
-		
+		// java script executor
         js.executeScript("arguments[0].click();", sourceButton);
 		
 		By searchSuggestionSectionLocator=By.xpath("//*[contains(@class,'searchSuggestionWrapper')]");
